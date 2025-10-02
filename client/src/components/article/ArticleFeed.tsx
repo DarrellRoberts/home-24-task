@@ -1,6 +1,12 @@
+/** @jsxImportSource @emotion/react */
+
 import ArticleCard from "./ArticleCard"
 import { type Category } from "../../types/types"
 import { Dispatch, useMemo, useState } from "react"
+import ArticleFilters from "./ArticleFilters"
+import SelectMenu from "../ui/SelectMenu"
+import ArticleSelect from "./ArticleSelect"
+import Button from "../ui/Button"
 
 type Props = {
   categories: Category
@@ -9,7 +15,7 @@ type Props = {
 }
 
 const ArticleFeed = ({ categories, searchbar, setSearchbar }: Props) => {
-  const [isLow, setIsLow] = useState<boolean>(false)
+  const [sortedValue, setSortedValue] = useState<string>("low")
   const [priceIndex, setPriceIndex] = useState<string>("all")
   const [currentPage, setCurrentPage] = useState<number>(0)
 
@@ -42,7 +48,7 @@ const ArticleFeed = ({ categories, searchbar, setSearchbar }: Props) => {
       const priceA = a.prices?.regular?.value ?? 0
       const priceB = b.prices?.regular?.value ?? 0
 
-      if (isLow) {
+      if (sortedValue === "low") {
         return priceA - priceB
       } else {
         return priceB - priceA
@@ -54,7 +60,7 @@ const ArticleFeed = ({ categories, searchbar, setSearchbar }: Props) => {
     const paginatedList = sortedList?.slice(startIndex, endIndex)
 
     return paginatedList
-  }, [searchbar, isLow, categories, priceIndex, currentPage])
+  }, [searchbar, sortedValue, categories, priceIndex, currentPage])
 
   return (
     <div className="content">
@@ -62,54 +68,35 @@ const ArticleFeed = ({ categories, searchbar, setSearchbar }: Props) => {
         {categories?.name}
         <small> ({sortedAndFilteredList.length})</small>
       </h1>
-      <label>Less than 1000</label>
-      <input
-        type="radio"
-        name="price-index"
-        onChange={() => setPriceIndex("low")}
+      <ArticleFilters setPriceIndex={setPriceIndex} />
+      <ArticleSelect
+        setSortedValue={setSortedValue}
+        sortedValue={sortedValue}
       />
-      <label>Less than 5000</label>
-      <input
-        type="radio"
-        name="price-index"
-        onChange={() => setPriceIndex("medium")}
-      />
-      <label>More than 5000</label>
-      <input
-        type="radio"
-        name="price-index"
-        onChange={() => setPriceIndex("high")}
-      />
-      <label>All</label>
-      <input
-        type="radio"
-        name="price-index"
-        onChange={() => setPriceIndex("all")}
-      />
-      <label htmlFor="cost">Sortieren:</label>
-      <select
-        className="sort-cost-selector"
-        name="cost"
-        onChange={() => {
-          setIsLow(!isLow)
-        }}
-      >
-        <option value="low">Höchster Preis</option>
-        <option value="high">Niedrigster Preis</option>
-      </select>
       {searchbar && (
         <div>
-          <span>Showing results for: {searchbar}</span>
-          <button onClick={() => setSearchbar("")}>Clear results</button>
+          <h2>Showing results for: {searchbar}</h2>
+          <Button label="Zurücksetzen" clickFunc={() => setSearchbar("")} />
         </div>
       )}
-      <div className="articles">
+      <div
+        css={{
+          display: sortedAndFilteredList.length > 0 ? "grid" : "flex",
+          justifyContent:
+            sortedAndFilteredList.length === 0 ? "center" : "auto",
+          alingItems: sortedAndFilteredList.length === 0 ? "center" : "auto",
+          height: sortedAndFilteredList.length === 0 ? "100vh" : "auto",
+          gridGap: "2rem",
+          padding: "0 1rem",
+          gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+        }}
+      >
         {sortedAndFilteredList.length > 0 ? (
           sortedAndFilteredList.map((article) => (
             <ArticleCard article={article} />
           ))
         ) : (
-          <span>No results found</span>
+          <h2>No results found</h2>
         )}
       </div>
       <button onClick={() => setCurrentPage(currentPage - 1)}>Prev</button>

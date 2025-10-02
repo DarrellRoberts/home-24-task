@@ -1,4 +1,10 @@
+/** @jsxImportSource @emotion/react */
+
+import { colors } from "../../theme"
 import { Article } from "../../types/types"
+import Button from "../ui/Button"
+import Card from "../ui/Card"
+import Icon from "../ui/Icon"
 
 const ArticleCard = ({ article }: { article: Article }) => {
   const intlNumberFormatValues = ["de-DE", "currency", "EUR"]
@@ -8,12 +14,21 @@ const ArticleCard = ({ article }: { article: Article }) => {
     currency: intlNumberFormatValues[2],
   })
   return (
-    <div className="article">
-      <img src={article.images[0].path} />
-      <div>{article.name}</div>
-      <div>{formatter.format(article.prices.regular.value / 100)}</div>
-      <section role="button">Add to cart</section>
-    </div>
+    <Card
+      header={formatter.format(article.prices.regular.value / 100)}
+      footer={article.name}
+      imgSrc={article.images[0].path}
+      bgColor={colors.background}
+      textColor={colors.primary}
+      button={
+        <Button
+          label={"In den Warenkorb"}
+          bgColor={colors.secondary}
+          textColor={colors.text}
+          icon={<Icon icon={"trolley"} strokeWidth={1.5} iconWidth={"30px"} />}
+        />
+      }
+    />
   )
 }
 

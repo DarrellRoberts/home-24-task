@@ -1,23 +1,24 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  /* margin: 0; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: #fff3e0; */
 }
 
-.page {
+/* .page {
   display: grid;
-  grid-gap: 20px;
   grid-template-columns: 160px auto auto;
+  height: 100%;
   grid-template-areas:
-    'header header header'
-    'sidebar content content'
-    'footer footer footer';
-  margin: 6px;
-}
+    "header header header"
+    "sidebar content content"
+    "footer footer footer";
+} */
 
-.page > * {
+/* .page > * {
   padding: 10px;
 }
 
@@ -28,9 +29,9 @@ body {
 
 .header input {
   float: right;
-}
+} */
 
-.sidebar {
+/* .sidebar {
   grid-area: sidebar;
   background-color: lavender;
 }
@@ -44,15 +45,15 @@ body {
 .sidebar ul li {
   margin: 0 0 0 8px;
   padding: 8px 0;
-}
+} */
 
 .content {
   grid-area: content;
   grid-column: span 2;
 }
 
-.footer {
+/* .footer {
   grid-area: footer;
   background-color: lightblue;
   text-align: center;
-}
+} */

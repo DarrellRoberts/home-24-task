@@ -1,12 +1,11 @@
-import Footer from "../components/footer/Footer"
-import Header from "../components/header/Header"
-import Sidebar from "../components/sidebar/Sidebar"
-import ArticleFeed from "../components/article/ArticleFeed"
-import SidebarSkeleton from "../components/sidebar/SidebarSkeleton"
-import ArticleSkeleton from "../components/article/ArticleSkeleton"
+import FooterHome from "../components/footer/FooterHome"
+import HeaderHome from "../components/header/HeaderHome"
+import SidebarHome from "../components/sidebar/SidebarHome"
 import useArticleFetch from "../hooks/useArticleFetch"
 import { GET_ARTICLES_QUERY } from "../queries/articlesQuery"
 import { useState } from "react"
+import Layout from "../components/ui/Layout"
+import ArticleHome from "../components/article/ArticleHome"
 
 const HomePage = () => {
   const [searchbar, setSearchbar] = useState<string>("")
@@ -17,36 +16,35 @@ const HomePage = () => {
   )
 
   return (
-    <div className="page">
-      <Header setSearchbar={setSearchbar} searchbar={searchbar} />
-      {isPending && (
+    <Layout>
+      <HeaderHome setSearchbar={setSearchbar} searchbar={searchbar} />
+      {/* {isPending && (
         <>
-          <SidebarSkeleton />
+          <SidebarHome setSearchbar={setSearchbar} />
           <ArticleSkeleton />
         </>
-      )}{" "}
+      )}{" "} */}
+      <SidebarHome setSearchbar={setSearchbar} />
       {error !== null && (
         <>
           <h1>Unable to fetch the product details. Please try again later</h1>
-          <SidebarSkeleton />
-          <ArticleSkeleton />
         </>
       )}{" "}
-      {articles && (
+      {articles && !isPending && (
         <>
-          <Sidebar
+          <SidebarHome
             categories={articles.childrenCategories}
             setSearchbar={setSearchbar}
           />
-          <ArticleFeed
+          <ArticleHome
             categories={articles}
             searchbar={searchbar}
             setSearchbar={setSearchbar}
           />
         </>
       )}
-      <Footer />
-    </div>
+      <FooterHome />
+    </Layout>
   )
 }
 

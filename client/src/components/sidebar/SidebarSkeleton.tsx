@@ -5,11 +5,7 @@ type Props = {
 }
 
 const SidebarSkeleton = () => {
-  return (
-    <div className="sidebar">
-      <h3>Kategorien</h3>
-    </div>
-  )
+  return <h3>Skeleton</h3>
 }
 
 export default SidebarSkeleton
