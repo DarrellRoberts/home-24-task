@@ -2,7 +2,7 @@ import React from "react"
 
 import { Category } from "./types/types"
 import "./ProductList.css"
-import { ArticleCard } from "./components/article/ArticleCard"
+import ArticleCard from "./components/article/ArticleCard"
 
 type State = {
   categories: Category[]

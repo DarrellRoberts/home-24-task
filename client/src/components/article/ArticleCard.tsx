@@ -1,13 +1,12 @@
 import { Article } from "../../types/types"
 
-var intlNumberFormatValues = ["de-DE", "currency", "EUR"]
+const ArticleCard = ({ article }: { article: Article }) => {
+  const intlNumberFormatValues = ["de-DE", "currency", "EUR"]
 
-export var formatter = new Intl.NumberFormat(intlNumberFormatValues[0], {
-  style: intlNumberFormatValues[1],
-  currency: intlNumberFormatValues[2],
-})
-
-export var ArticleCard = ({ article }: { article: Article }) => {
+  const formatter = new Intl.NumberFormat(intlNumberFormatValues[0], {
+    style: intlNumberFormatValues[1],
+    currency: intlNumberFormatValues[2],
+  })
   return (
     <div className="article">
       <img src={article.images[0].path} />
@@ -17,3 +16,5 @@ export var ArticleCard = ({ article }: { article: Article }) => {
     </div>
   )
 }
+
+export default ArticleCard
