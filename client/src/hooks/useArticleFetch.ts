@@ -6,7 +6,7 @@ const useArticleFetch = (url: string, query: string) => {
   const [isPending, setIsPending] = useState<boolean>(true)
   const [error, setError] = useState<unknown | null>(null)
 
-  const fetchArticles = async () => {
+  const fetchArticles = async (signal: AbortSignal) => {
     try {
       setIsPending(true)
       setError(null)
@@ -14,6 +14,7 @@ const useArticleFetch = (url: string, query: string) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
+        signal,
       })
       if (!response.ok) {
         throw new Error("Unable to fetch articles")
@@ -22,6 +23,9 @@ const useArticleFetch = (url: string, query: string) => {
       setIsPending(false)
       setArticles(result.data.categories[0])
     } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        return
+      }
       setIsPending(false)
       setError(err)
     }
@@ -29,7 +33,7 @@ const useArticleFetch = (url: string, query: string) => {
 
   useEffect(() => {
     const abortController = new AbortController()
-    fetchArticles()
+    fetchArticles(abortController.signal)
     return () => abortController.abort()
   }, [url, query])
 

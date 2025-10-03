@@ -1,16 +1,18 @@
 /** @jsxImportSource @emotion/react */
 
-import { type Dispatch } from "react"
-import { colors } from "../../theme"
+import { useState, type Dispatch } from "react"
+import { breakpoints, colors } from "../../theme"
 import Header from "../ui/Header"
 import Searchbar from "../ui/Searchbar"
 
 type Props = {
-  setSearchbar: Dispatch<React.SetStateAction<string>>
-  searchbar: string
+  setSubmittedSearch: Dispatch<React.SetStateAction<string>>
+  setShowBlur: Dispatch<React.SetStateAction<boolean>>
+  showBlur: boolean
 }
 
-const HeaderHome = ({ searchbar, setSearchbar }: Props) => {
+const HeaderHome = ({ setSubmittedSearch, setShowBlur, showBlur }: Props) => {
+  const [searchbar, setSearchbar] = useState<string>("")
   return (
     <Header>
       <div
@@ -21,6 +23,10 @@ const HeaderHome = ({ searchbar, setSearchbar }: Props) => {
           justifyContent: "space-between",
           alignItems: "center",
           fontSize: "2.25rem",
+          [breakpoints.sm]: {
+            flexDirection: "column",
+            alignItems: "start",
+          },
         }}
       >
         <div
@@ -29,13 +35,23 @@ const HeaderHome = ({ searchbar, setSearchbar }: Props) => {
             background: colors.primary,
             padding: "1rem",
             borderBottomRightRadius: "10px",
+            filter: showBlur ? "blur(1rem)" : "blur(0)",
+            transition: "blur 0.25s ease-in-out",
           }}
         >
-          <strong css={{ padding: "1rem" }}>home24</strong>
+          <strong
+            css={{
+              padding: "1rem",
+            }}
+          >
+            home24
+          </strong>
         </div>
         <Searchbar
-          value={searchbar}
-          setter={setSearchbar}
+          setter={setSubmittedSearch}
+          setterTwo={setShowBlur}
+          searchbar={searchbar}
+          setSearchbar={setSearchbar}
           placeholder="Wonach Suchen Sie..."
         />
       </div>

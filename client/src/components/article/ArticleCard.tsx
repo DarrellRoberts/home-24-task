@@ -7,7 +7,11 @@ import Card from "../ui/Card"
 import Icon from "../ui/Icon"
 
 const ArticleCard = ({ article }: { article: Article }) => {
-  const intlNumberFormatValues = ["de-DE", "currency", "EUR"]
+  const intlNumberFormatValues: [
+    string,
+    "decimal" | "currency" | "percent" | "unit" | undefined,
+    string
+  ] = ["de-DE", "currency", "EUR"]
 
   const formatter = new Intl.NumberFormat(intlNumberFormatValues[0], {
     style: intlNumberFormatValues[1],
@@ -18,7 +22,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
       header={formatter.format(article.prices.regular.value / 100)}
       footer={article.name}
       imgSrc={article.images[0].path}
-      bgColor={colors.background}
+      bgColor={colors.backgroundAccented}
       textColor={colors.primary}
       button={
         <Button

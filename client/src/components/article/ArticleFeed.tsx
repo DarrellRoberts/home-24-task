@@ -4,32 +4,65 @@ import ArticleCard from "./ArticleCard"
 import { type Category } from "../../types/types"
 import { Dispatch, useMemo, useState } from "react"
 import ArticleFilters from "./ArticleFilters"
-import SelectMenu from "../ui/SelectMenu"
 import ArticleSelect from "./ArticleSelect"
 import Button from "../ui/Button"
+import Pagination from "../ui/Pagination"
+import Icon from "../ui/Icon"
+import { breakpoints, colors } from "../../theme"
+import ProductGrid from "../ui/ProductGrid"
 
 type Props = {
   categories: Category
-  searchbar: string
-  setSearchbar: Dispatch<React.SetStateAction<string>>
+  submittedSearch: string
+  setSubmittedSearch: Dispatch<React.SetStateAction<string>>
+  setShowSidebar: Dispatch<React.SetStateAction<boolean>>
 }
 
-const ArticleFeed = ({ categories, searchbar, setSearchbar }: Props) => {
+const ArticleFeed = ({
+  categories,
+  submittedSearch,
+  setSubmittedSearch,
+  setShowSidebar,
+}: Props) => {
   const [sortedValue, setSortedValue] = useState<string>("low")
   const [priceIndex, setPriceIndex] = useState<string>("all")
-  const [currentPage, setCurrentPage] = useState<number>(0)
+  const [pageIndex, setPageIndex] = useState<number>(0)
+  const [totalItems, setTotalItems] = useState<number>(0)
 
   const itemsPerPage = 25
+  const totalPages = Math.ceil(
+    categories?.categoryArticles?.articles.length / itemsPerPage
+  )
+
+  const handleNextPage = () => {
+    if (pageIndex + 1 !== totalPages) {
+      setPageIndex(pageIndex + 1)
+    } else {
+      return
+    }
+  }
+
+  const handlePrevPage = () => {
+    if (pageIndex !== 0) {
+      setPageIndex(pageIndex - 1)
+    } else {
+      return
+    }
+  }
 
   const sortedAndFilteredList = useMemo(() => {
     const filteredList =
       categories?.categoryArticles?.articles
         .filter((article) => {
-          return article.name.toLowerCase().includes(searchbar.toLowerCase())
+          return article.name
+            .toLowerCase()
+            .includes(submittedSearch.toLowerCase())
         })
         .filter((article) => {
           if (priceIndex === "all") {
-            return article.name.toLowerCase().includes(searchbar.toLowerCase())
+            return article.name
+              .toLowerCase()
+              .includes(submittedSearch.toLowerCase())
           } else if (priceIndex === "low") {
             return article.prices.regular.value / 100 < 1000
           } else if (priceIndex === "medium") {
@@ -55,52 +88,93 @@ const ArticleFeed = ({ categories, searchbar, setSearchbar }: Props) => {
       }
     })
 
-    const startIndex = currentPage && currentPage * itemsPerPage
-    const endIndex = itemsPerPage * (currentPage + 1)
+    setTotalItems(sortedList.length)
+
+    const startIndex = pageIndex && pageIndex * itemsPerPage
+    const endIndex = itemsPerPage * (pageIndex + 1)
     const paginatedList = sortedList?.slice(startIndex, endIndex)
 
     return paginatedList
-  }, [searchbar, sortedValue, categories, priceIndex, currentPage])
+  }, [submittedSearch, sortedValue, categories, priceIndex, pageIndex])
 
   return (
-    <div className="content">
+    <div>
       <h1>
         {categories?.name}
-        <small> ({sortedAndFilteredList.length})</small>
+        <small>
+          {" "}
+          ({sortedAndFilteredList.length}/{totalItems})
+        </small>
       </h1>
-      <ArticleFilters setPriceIndex={setPriceIndex} />
-      <ArticleSelect
-        setSortedValue={setSortedValue}
-        sortedValue={sortedValue}
-      />
-      {searchbar && (
-        <div>
-          <h2>Showing results for: {searchbar}</h2>
-          <Button label="Zurücksetzen" clickFunc={() => setSearchbar("")} />
-        </div>
-      )}
       <div
         css={{
-          display: sortedAndFilteredList.length > 0 ? "grid" : "flex",
-          justifyContent:
-            sortedAndFilteredList.length === 0 ? "center" : "auto",
-          alingItems: sortedAndFilteredList.length === 0 ? "center" : "auto",
-          height: sortedAndFilteredList.length === 0 ? "100vh" : "auto",
-          gridGap: "2rem",
-          padding: "0 1rem",
-          gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          width: "100%",
+          paddingBottom: "2rem",
+          [breakpoints.sm]: {
+            flexDirection: "column",
+            gap: "1rem",
+          },
+          [breakpoints.md]: {
+            display: "grid",
+
+            gridTemplateRows: "auto auto",
+            gap: "1rem",
+            alignContent: "center",
+            justifyItems: "center",
+          },
         }}
       >
+        <div
+          css={{
+            paddingTop: "34px",
+            [breakpoints.md]: {
+              gridColumn: "span 2",
+            },
+          }}
+        >
+          <Button
+            label="Kategorien"
+            textColor={colors.primary}
+            variant="outline"
+            clickFunc={() => setShowSidebar(true)}
+            icon={<Icon icon={"arrowLeft"} />}
+          />
+        </div>
+
+        <ArticleFilters priceIndex={priceIndex} setPriceIndex={setPriceIndex} />
+        <ArticleSelect
+          setSortedValue={setSortedValue}
+          sortedValue={sortedValue}
+        />
+      </div>
+      {submittedSearch && (
+        <div>
+          <h2>Ergebnisse für: {submittedSearch}</h2>
+          <Button
+            label="Zurücksetzen"
+            clickFunc={() => setSubmittedSearch("")}
+          />
+        </div>
+      )}
+      <ProductGrid productLength={sortedAndFilteredList.length}>
         {sortedAndFilteredList.length > 0 ? (
-          sortedAndFilteredList.map((article) => (
-            <ArticleCard article={article} />
+          sortedAndFilteredList.map((article, index) => (
+            <ArticleCard article={article} key={article.name + index} />
           ))
         ) : (
-          <h2>No results found</h2>
+          <h2>Keine Ergebnisse</h2>
         )}
-      </div>
-      <button onClick={() => setCurrentPage(currentPage - 1)}>Prev</button>
-      <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+      </ProductGrid>
+      <Pagination
+        pageIndex={pageIndex}
+        pageNumber={pageIndex + 1}
+        toNextPage={handleNextPage}
+        toPrevPage={handlePrevPage}
+        totalPages={totalPages}
+      />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { ReactNode } from "react"
-import { colors } from "../../theme"
+import { breakpoints, colors } from "../../theme"
 
 type Props = {
   children: ReactNode
@@ -10,9 +10,9 @@ const Footer = ({ children }: Props) => {
   return (
     <div
       css={{
-        gridArea: "footer",
         height: "65px",
         position: "relative",
+        paddingTop: "5rem",
       }}
     >
       <div
@@ -35,6 +35,9 @@ const Footer = ({ children }: Props) => {
             display: "block",
             width: "calc(192% + 1.3px)",
             height: "123px",
+            [breakpoints.sm]: {
+              width: "auto",
+            },
           }}
         >
           <path

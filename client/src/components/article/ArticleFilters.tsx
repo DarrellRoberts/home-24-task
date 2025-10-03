@@ -1,34 +1,51 @@
 /** @jsxImportSource @emotion/react */
 
 import { Dispatch, useState } from "react"
-import { colors } from "../../theme"
+import { breakpoints, colors, fontSize } from "../../theme"
 import Radio from "../ui/Radio"
 import Icon from "../ui/Icon"
 
-type Props = { setPriceIndex: Dispatch<React.SetStateAction<string>> }
+type Props = {
+  setPriceIndex: Dispatch<React.SetStateAction<string>>
+  priceIndex: string
+}
 
-const ArticleFilters = ({ setPriceIndex }: Props) => {
-  const [showFilters, setShowFilters] = useState<boolean>(true)
+const ArticleFilters = ({ setPriceIndex, priceIndex }: Props) => {
   return (
     <div
       css={{
         position: "relative",
-        paddingBottom: showFilters ? "4rem" : 0,
-        transition: "all ease-in 0.2s",
       }}
     >
+      <div
+        css={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          gap: "1rem",
+          width: "100px",
+        }}
+      >
+        <Icon icon="filter" />
+        <h2 css={{ padding: 0, margin: 0 }}>Filters</h2>
+      </div>
       <div
         css={{
           display: "flex",
           justifyContent: "space-evenly",
           fontWeight: 600,
-          fontSize: "1rem",
-          position: "absolute",
+          gap: "1rem",
+          fontSize: fontSize.base,
           zIndex: 1,
           width: "100%",
-          opacity: showFilters ? 1 : 0,
-          transform: showFilters ? "translateY(100%)" : "translateY(-10%)",
-          transition: "all ease-in 0.2s",
+          [breakpoints.md]: {
+            flexDirection: "column",
+            gap: "1rem",
+          },
+          [breakpoints.sm]: {
+            flexDirection: "column",
+            gap: "1rem",
+          },
         }}
       >
         <Radio
@@ -37,6 +54,7 @@ const ArticleFilters = ({ setPriceIndex }: Props) => {
           checkedColor={colors.primary}
           setter={setPriceIndex}
           value="low"
+          priceIndex={priceIndex}
         />
         <Radio
           label="Inszwischen 1000€ und 8000€"
@@ -44,6 +62,7 @@ const ArticleFilters = ({ setPriceIndex }: Props) => {
           checkedColor={colors.primary}
           setter={setPriceIndex}
           value="medium"
+          priceIndex={priceIndex}
         />
         <Radio
           label="Mehr als 8000€"
@@ -51,6 +70,7 @@ const ArticleFilters = ({ setPriceIndex }: Props) => {
           checkedColor={colors.primary}
           setter={setPriceIndex}
           value="high"
+          priceIndex={priceIndex}
         />
         <Radio
           label="Alle"
@@ -58,22 +78,8 @@ const ArticleFilters = ({ setPriceIndex }: Props) => {
           checkedColor={colors.primary}
           setter={setPriceIndex}
           value="all"
+          priceIndex={priceIndex}
         />
-      </div>
-      <div
-        css={{
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          cursor: "pointer",
-          zIndex: 2,
-          width: "100px",
-        }}
-        onClick={() => setShowFilters(!showFilters)}
-      >
-        <h2>Filters</h2>
-        <Icon icon="filter" />
       </div>
     </div>
   )

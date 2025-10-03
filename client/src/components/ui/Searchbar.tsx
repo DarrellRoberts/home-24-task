@@ -1,16 +1,24 @@
 /** @jsxImportSource @emotion/react */
 
 import { Dispatch } from "react"
-import { colors, font } from "../../theme"
+import { breakpoints, colors, font } from "../../theme"
 import Icon from "./Icon"
 
 type Props = {
-  value: string
   setter: Dispatch<React.SetStateAction<string>>
+  setterTwo: Dispatch<React.SetStateAction<boolean>>
+  searchbar: string
+  setSearchbar: Dispatch<React.SetStateAction<string>>
   placeholder: string
 }
 
-const Searchbar = ({ value, setter, placeholder }: Props) => {
+const Searchbar = ({
+  setter,
+  setterTwo,
+  placeholder,
+  searchbar,
+  setSearchbar,
+}: Props) => {
   return (
     <div
       css={{
@@ -19,14 +27,28 @@ const Searchbar = ({ value, setter, placeholder }: Props) => {
         borderRadius: "10px",
         paddingLeft: "1rem",
         marginRight: "1rem",
-        marginTop: "1rem",
         background: colors.background,
+        [breakpoints.sm]: {
+          marginRight: "0",
+          width: "95%",
+        },
+        [breakpoints.md]: {
+          marginRight: "0",
+          width: "55%",
+        },
       }}
     >
       <input
         placeholder={placeholder}
-        value={value}
-        onChange={(e) => setter(e.target.value)}
+        value={searchbar}
+        onClick={() => setterTwo(true)}
+        onChange={(e) => setSearchbar(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setter(searchbar)
+            setterTwo(false)
+          }
+        }}
         css={{
           border: "none",
           fontSize: "1.1rem",
@@ -36,10 +58,28 @@ const Searchbar = ({ value, setter, placeholder }: Props) => {
           borderRadius: "10px",
           background: colors.background,
           width: "500px",
+          [breakpoints.sm]: {
+            width: "100%",
+          },
         }}
       />
       <div
-        onClick={() => setter("")}
+        onClick={(e) => {
+          e.stopPropagation()
+          setter("")
+          setterTwo(false)
+          setSearchbar("")
+        }}
+        css={{ cursor: searchbar ? "pointer" : "default" }}
+      >
+        <Icon icon="xMark" strokeColor={searchbar && colors.primary} />
+      </div>
+      <div
+        onClick={(e) => {
+          e.stopPropagation()
+          setter(searchbar)
+          setterTwo(false)
+        }}
         css={{
           backgroundColor: colors.primary,
           padding: "0 1rem",
@@ -59,7 +99,7 @@ const Searchbar = ({ value, setter, placeholder }: Props) => {
           },
         }}
       >
-        <Icon icon={"xMark"} />
+        <Icon icon={"magniGlass"} />
       </div>
     </div>
   )

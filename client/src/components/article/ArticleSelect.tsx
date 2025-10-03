@@ -3,6 +3,7 @@
 import { Dispatch, useState } from "react"
 import Icon from "../ui/Icon"
 import SelectMenu from "../ui/SelectMenu"
+import { breakpoints } from "../../theme"
 
 type Props = {
   sortedValue: string
@@ -10,7 +11,6 @@ type Props = {
 }
 
 const ArticleSelect = ({ sortedValue, setSortedValue }: Props) => {
-  const [showSelect, setShowSelect] = useState<boolean>(true)
   const options = [
     { value: "low", label: "Niedrigster Preis" },
     { value: "high", label: "Höchster Preis " },
@@ -18,34 +18,32 @@ const ArticleSelect = ({ sortedValue, setSortedValue }: Props) => {
   return (
     <div
       css={{
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        paddingBottom: showSelect ? "4rem" : 0,
-        transition: "all ease-in 0.2s",
+        // display: "flex",
+        // flexDirection: "column",
+        // position: "relative",
+        alignSelf: "center",
+        [breakpoints.md]: {
+          alignSelf: "baseline",
+        },
       }}
     >
       <div
         css={{
           display: "flex",
-          alignItems: "center",
-          height: "100%",
           gap: "1rem",
           cursor: "pointer",
           width: "100px",
+          float: "left",
         }}
-        onClick={() => setShowSelect(!showSelect)}
       >
-        <h2 css={{ margin: 0, padding: 0 }}>Sortieren</h2>
         <Icon icon="list" />
+        <h2 css={{ margin: 0, padding: 0, textAlign: "left", width: "100%" }}>
+          Sortieren
+        </h2>
       </div>
       <div
         css={{
           alignSelf: "center",
-          opacity: showSelect ? 1 : 0,
-          position: "absolute",
-          transform: showSelect ? "translateY(100%)" : "translateY(-10%)",
-          transition: "all ease-in 0.2s",
         }}
       >
         <SelectMenu

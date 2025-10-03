@@ -44,6 +44,16 @@ const Icon = ({
     />
   )
 
+  const magniGlass = (
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+    />
+  )
+
+  const arrowLeft = (  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />)
+
   const selectedIcon =
     useMemo(() => {
       if (icon === "trolley") {
@@ -54,6 +64,10 @@ const Icon = ({
         return list
       } else if (icon === "xMark") {
         return xMark
+      } else if (icon === "magniGlass") {
+        return magniGlass
+      } else if (icon === "arrowLeft") {
+        return arrowLeft
       } else {
         return null
       }
@@ -76,3 +90,4 @@ const Icon = ({
 }
 
 export default Icon
+

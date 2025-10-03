@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import { Dispatch } from "react"
 import { Category } from "../../types/types"
 import ArticleFeed from "./ArticleFeed"
@@ -5,18 +7,25 @@ import ArticleSkeleton from "./ArticleSkeleton"
 
 type Props = {
   categories: Category
-  searchbar: string
-  setSearchbar: Dispatch<React.SetStateAction<string>>
+  submittedSearch: string
+  setSubmittedSearch: Dispatch<React.SetStateAction<string>>
+  setShowSidebar: Dispatch<React.SetStateAction<boolean>>
 }
 
-const ArticleHome = ({ categories, searchbar, setSearchbar }: Props) => {
+const ArticleHome = ({
+  categories,
+  submittedSearch,
+  setSubmittedSearch,
+  setShowSidebar,
+}: Props) => {
   return (
-    <div className={"content"}>
+    <div css={{ gridArea: "content", gridColumn: "span 2" }}>
       {categories ? (
         <ArticleFeed
           categories={categories}
-          searchbar={searchbar}
-          setSearchbar={setSearchbar}
+          submittedSearch={submittedSearch}
+          setSubmittedSearch={setSubmittedSearch}
+          setShowSidebar={setShowSidebar}
         />
       ) : (
         <ArticleSkeleton />

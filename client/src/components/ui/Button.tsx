@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { ReactNode } from "react"
-import { colors, font } from "../../theme"
+import { breakpoints, colors, font, fontSize } from "../../theme"
 
 type Props = {
   bgColor?: string
@@ -9,6 +9,7 @@ type Props = {
   label: string
   icon?: ReactNode
   clickFunc?: () => void
+  variant?: string
 }
 
 const Button = ({
@@ -17,33 +18,39 @@ const Button = ({
   label,
   icon,
   clickFunc,
+  variant = "solid",
 }: Props) => {
   return (
     <button
       onClick={clickFunc}
       css={{
-        background: bgColor,
+        background: variant === "solid" ? bgColor : "transparent",
         color: textColor,
-        border: "none",
+        border: variant === "solid" ? "none" : `1px solid ${textColor}`,
         borderRadius: "10px",
         padding: "15px 32px",
         display: "flex",
         justifyContent: "space-around",
         alignItems: "center",
-        fontSize: "1.2rem",
+        fontSize: fontSize.md,
         cursor: "pointer",
         fontFamily: font.main,
         fontWeight: 800,
         "&:active": {
           transform: "scale(0.85)",
+          background: variant === "outline" ? textColor : "auto",
         },
         "&:hover": {
           color: colors.background,
+          background: variant === "outline" ? textColor : "auto",
+        },
+        [breakpoints.sm]: {
+          padding: "1rem 0",
         },
       }}
     >
-      {label}
       {icon}
+      {label}
     </button>
   )
 }

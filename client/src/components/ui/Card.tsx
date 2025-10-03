@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
 import { ReactNode } from "react"
-import { colors } from "../../theme"
+import { breakpoints, colors, fontSize } from "../../theme"
+import { keyframes } from "@emotion/react"
 
 type Props = {
-  bgColor: string
-  textColor: string
+  bgColor?: string
+  textColor?: string
   imgSrc?: string
-  header: string
-  footer: string
+  header?: string
+  footer?: string
   isSkeleton?: boolean
   button?: ReactNode
 }
@@ -22,6 +23,19 @@ const Card = ({
   bgColor,
   textColor,
 }: Props) => {
+  const pulsate = keyframes`
+  0% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+`
   return (
     <div
       css={{
@@ -29,25 +43,77 @@ const Card = ({
         flexDirection: "column",
         background: bgColor,
         boxShadow: `0px 5px 11px -3px ${colors.neutral}`,
-        width: "300px",
+        width: "auto",
+        aspectRatio: "1/1",
         padding: "1rem",
         borderRadius: "10px",
+        gap: isSkeleton ? "1rem" : "0",
       }}
     >
       <div
         css={{
           backgroundImage: `url(${imgSrc})`,
+          backgroundColor: isSkeleton ? colors.neutral : "transparent",
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          width: "100%",
-          height: "200px",
+          height: isSkeleton ? "350px" : "auto",
+          aspectRatio: "1/1",
           borderRadius: "10px",
+          opacity: isSkeleton ? "0.1" : "1",
+          animation: isSkeleton ? `${pulsate} 2s ease-in-out infinite` : "none",
+          [breakpoints.sm]: {
+            height: isSkeleton ? "200px" : "auto",
+          },
         }}
       />
-      <h2 css={{ color: textColor, fontSize: "1.25rem" }}>{header}</h2>
-      <h2 css={{ color: textColor, fontSize: "1rem" }}>{footer}</h2>
-      {button}
+      {isSkeleton ? (
+        <div css={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div
+            css={{
+              background: colors.neutral,
+              borderRadius: "10px",
+              width: "50%",
+              height: "1.5rem",
+              opacity: "0.1",
+              animation: `${pulsate} 2s ease-in-out infinite`,
+            }}
+          />
+          <div
+            css={{
+              background: colors.neutral,
+              borderRadius: "10px",
+              width: "75%",
+              height: "1.5rem",
+              opacity: "0.1",
+              animation: `${pulsate} 2s ease-in-out infinite`,
+            }}
+          />
+        </div>
+      ) : (
+        <>
+          <h2
+            css={{
+              color: textColor,
+              fontSize: fontSize.md,
+            }}
+          >
+            {header}
+          </h2>
+          <h2
+            css={{
+              color: textColor,
+              fontSize: fontSize.base,
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {footer}
+          </h2>
+          {button}
+        </>
+      )}
     </div>
   )
 }

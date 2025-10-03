@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { colors } from "../../theme"
+import { breakpoints, colors, fontSize } from "../../theme"
 import Footer from "../ui/Footer"
 
 const FooterHome = () => {
@@ -13,9 +13,12 @@ const FooterHome = () => {
           right: 0,
           margin: "1rem",
           color: colors.textInverted,
+          [breakpoints.sm]: {
+            margin: 0,
+          },
         }}
       >
-        <span css={{ fontSize: "1.2rem" }}>
+        <span css={{ fontSize: fontSize.base }}>
           Alle Preise sind in Euro (€) inkl. gesetzlicher Umsatzsteuer und
           Versandkosten.
         </span>

@@ -1,23 +1,30 @@
 /** @jsxImportSource @emotion/react */
 
 import { ChildCategory } from "../../types/types"
-import { Dispatch, useMemo } from "react"
+import { Dispatch, SetStateAction, useMemo, useState } from "react"
 import Sidebar from "../ui/Sidebar"
 import { colors } from "../../theme"
 import SidebarSkeleton from "./SidebarSkeleton"
 
 type Props = {
   categories?: ChildCategory
-  setSearchbar: Dispatch<React.SetStateAction<string>>
+  setSubmittedSearch: Dispatch<React.SetStateAction<string>>
+  showSidebar: boolean
+  setShowSidebar: Dispatch<React.SetStateAction<boolean>>
 }
 
-const SidebarHome = ({ categories, setSearchbar }: Props) => {
+const SidebarHome = ({
+  categories,
+  setSubmittedSearch,
+  showSidebar,
+  setShowSidebar,
+}: Props) => {
   const sortedList = useMemo(() => {
     return categories?.list.sort((a, b) => a.name.localeCompare(b.name)) ?? []
   }, [categories])
 
   return (
-    <Sidebar>
+    <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar}>
       <h3>Kategorien</h3>
       {sortedList?.length > 0 ? (
         <ul
@@ -27,16 +34,29 @@ const SidebarHome = ({ categories, setSearchbar }: Props) => {
             padding: "0 0 0 1rem",
             fontWeight: 600,
             display: "flex",
-            height: "100%",
+            // height: "100%",
             flexDirection: "column",
             justifyContent: "space-evenly",
             gap: "1rem",
           }}
         >
           {sortedList?.map((category) => (
-            <li key={category.name} onClick={() => setSearchbar(category.name)}>
-              {category.name}
-            </li>
+            <div key={category.name}>
+              <li
+                onClick={() => setSubmittedSearch(category.name)}
+                css={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    color: colors.neutral,
+                  },
+                }}
+              >
+                {category.name}
+              </li>
+              <hr
+                css={{ border: `1px dotted ${colors.primary}`, width: "100%" }}
+              />
+            </div>
           ))}
         </ul>
       ) : (

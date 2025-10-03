@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import FooterHome from "../components/footer/FooterHome"
 import HeaderHome from "../components/header/HeaderHome"
 import SidebarHome from "../components/sidebar/SidebarHome"
@@ -6,9 +8,13 @@ import { GET_ARTICLES_QUERY } from "../queries/articlesQuery"
 import { useState } from "react"
 import Layout from "../components/ui/Layout"
 import ArticleHome from "../components/article/ArticleHome"
+import ArticleSkeleton from "../components/article/ArticleSkeleton"
+import { breakpoints, fontSize } from "../theme"
 
 const HomePage = () => {
-  const [searchbar, setSearchbar] = useState<string>("")
+  const [submittedSearch, setSubmittedSearch] = useState<string>("")
+  const [showSidebar, setShowSidebar] = useState<boolean>(false)
+  const [showBlur, setShowBlur] = useState<boolean>(false)
 
   const { articles, isPending, error } = useArticleFetch(
     "http://localhost:3001/graphql",
@@ -17,30 +23,53 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <HeaderHome setSearchbar={setSearchbar} searchbar={searchbar} />
-      {/* {isPending && (
-        <>
-          <SidebarHome setSearchbar={setSearchbar} />
+      <HeaderHome
+        setSubmittedSearch={setSubmittedSearch}
+        setShowBlur={setShowBlur}
+        showBlur={showBlur}
+      />
+      {error !== null ? (
+        <div css={{ display: "flex", flexDirection: "column", width: "100%" }}>
+          <h1
+            css={{
+              fontSize: fontSize.xl,
+              [breakpoints.sm]: { textAlign: "center" },
+            }}
+          >
+            Produktdetails konnten nicht abgerufen werden. Bitte versuchen Sie
+            es später erneut.
+          </h1>
           <ArticleSkeleton />
-        </>
-      )}{" "} */}
-      <SidebarHome setSearchbar={setSearchbar} />
-      {error !== null && (
-        <>
-          <h1>Unable to fetch the product details. Please try again later</h1>
-        </>
-      )}{" "}
-      {articles && !isPending && (
+        </div>
+      ) : null}
+      {isPending && !error && (
+        <div css={{ display: "flex", flexDirection: "column" }}>
+          <h1>Laden...</h1>
+          <ArticleSkeleton />
+        </div>
+      )}
+      {articles && !error && !isPending && (
         <>
           <SidebarHome
-            categories={articles.childrenCategories}
-            setSearchbar={setSearchbar}
+            setSubmittedSearch={setSubmittedSearch}
+            setShowSidebar={setShowSidebar}
+            showSidebar={showSidebar}
+            categories={articles?.childrenCategories}
           />
-          <ArticleHome
-            categories={articles}
-            searchbar={searchbar}
-            setSearchbar={setSearchbar}
-          />
+          <div
+            css={{
+              filter: showBlur ? "blur(0.5rem)" : "blur(0)",
+              transition: "filter 0.15s ease-in-out",
+            }}
+            onClick={() => setShowBlur(false)}
+          >
+            <ArticleHome
+              categories={articles}
+              submittedSearch={submittedSearch}
+              setSubmittedSearch={setSubmittedSearch}
+              setShowSidebar={setShowSidebar}
+            />
+          </div>
         </>
       )}
       <FooterHome />

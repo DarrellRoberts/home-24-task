@@ -12,7 +12,6 @@ const Header = ({ children }: Props) => {
     <div
       css={{
         color: colors.textInverted,
-        gridArea: "header",
       }}
     >
       {children}
