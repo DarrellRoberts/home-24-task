@@ -1,4 +1,5 @@
-/** @jsxImportSource @emotion/react */
+import Box from "./primitives/Box"
+import styled from "@emotion/styled"
 
 type Props = {
   pageIndex: number
@@ -8,6 +9,18 @@ type Props = {
   totalPages: number
 }
 
+const NavText = styled(Box)<{ $disabled: boolean }>(
+  {
+    transition: "opacity 0.2s ease-in-out",
+    userSelect: "none",
+  },
+
+  (props) => ({
+    opacity: props.$disabled ? "0" : "1",
+    cursor: props.$disabled ? "default" : "pointer",
+  })
+)
+
 const Pagination = ({
   pageNumber,
   pageIndex,
@@ -15,37 +28,37 @@ const Pagination = ({
   toPrevPage,
   totalPages,
 }: Props) => {
+  const isPrevDisabled = pageIndex === 0
+  const isNextDisabled = pageNumber === totalPages
+
   return (
-    <div
-      css={{
-        display: "flex",
-        justifyContent: "space-between",
-        width: "100%",
-        height: "150px",
-      }}
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      width="100%"
+      height="150px"
     >
-      <h2
-        onClick={() => toPrevPage()}
-        css={{
-          opacity: pageIndex !== 0 ? "1" : "0",
-          cursor: pageIndex !== 0 ? "pointer" : "default",
-        }}
+      <NavText
+        as="h2"
+        onClick={!isPrevDisabled ? toPrevPage : undefined}
+        $disabled={isPrevDisabled}
       >
         Prev
-      </h2>
-      <h2>
+      </NavText>
+
+      <Box as="h2">
         Seite {pageNumber}/{totalPages}
-      </h2>
-      <h2
-        onClick={() => toNextPage()}
-        css={{
-          opacity: pageNumber !== totalPages ? "1" : "0",
-          cursor: pageNumber !== totalPages ? "pointer" : "default",
-        }}
+      </Box>
+
+      <NavText
+        as="h2"
+        onClick={!isNextDisabled ? toNextPage : undefined}
+        $disabled={isNextDisabled}
       >
         Next
-      </h2>
-    </div>
+      </NavText>
+    </Box>
   )
 }
 

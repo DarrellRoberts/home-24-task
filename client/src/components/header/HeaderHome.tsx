@@ -9,9 +9,15 @@ type Props = {
   setSubmittedSearch: Dispatch<React.SetStateAction<string>>
   setShowBlur: Dispatch<React.SetStateAction<boolean>>
   showBlur: boolean
+  isDisabled: boolean
 }
 
-const HeaderHome = ({ setSubmittedSearch, setShowBlur, showBlur }: Props) => {
+const HeaderHome = ({
+  setSubmittedSearch,
+  setShowBlur,
+  showBlur,
+  isDisabled,
+}: Props) => {
   const [searchbar, setSearchbar] = useState<string>("")
   return (
     <Header>
@@ -53,6 +59,7 @@ const HeaderHome = ({ setSubmittedSearch, setShowBlur, showBlur }: Props) => {
           searchbar={searchbar}
           setSearchbar={setSearchbar}
           placeholder="Wonach Suchen Sie..."
+          isDisabled={isDisabled}
         />
       </div>
     </Header>

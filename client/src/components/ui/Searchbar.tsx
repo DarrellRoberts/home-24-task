@@ -10,6 +10,7 @@ type Props = {
   searchbar: string
   setSearchbar: Dispatch<React.SetStateAction<string>>
   placeholder: string
+  isDisabled: boolean
 }
 
 const Searchbar = ({
@@ -18,6 +19,7 @@ const Searchbar = ({
   placeholder,
   searchbar,
   setSearchbar,
+  isDisabled,
 }: Props) => {
   return (
     <div
@@ -39,6 +41,7 @@ const Searchbar = ({
       }}
     >
       <input
+        disabled={isDisabled}
         placeholder={placeholder}
         value={searchbar}
         onClick={() => setterTwo(true)}

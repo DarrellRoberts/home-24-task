@@ -1,7 +1,5 @@
-/** @jsxImportSource @emotion/react */
-
 import { Dispatch } from "react"
-import { breakpoints, colors } from "../../theme"
+import { RadioLabel, RadioWrapper, RadioInput } from "./primitives/Radio"
 
 type Props = {
   label: string
@@ -20,43 +18,28 @@ const Radio = ({
   value,
   priceIndex,
 }: Props) => {
+  const isChecked = value === priceIndex
+
   return (
-    <label
-      css={{
-        [breakpoints.sm]: {
-          display: "flex",
-          justifyContent: "center",
-        },
-      }}
-    >
-      <div
-        css={{
-          accentColor: checkedColor,
-          border: `1px solid ${checkedColor}`,
-          padding: "1rem",
-          borderRadius: "10px",
-          background: priceIndex === value ? colors.primary : "transparent",
-          color: priceIndex === value ? colors.background : colors.primary,
-          cursor: "pointer",
-          "&:hover": {
-            background:
-              priceIndex !== value ? colors.backgroundAccented : colors.primary,
-          },
-          [breakpoints.sm]: {
-            width: "50%",
-          },
-        }}
+    <RadioLabel as="label" htmlFor={`${radioName}-${value}`}>
+      <RadioWrapper
+        $isChecked={isChecked}
+        $checkedColor={checkedColor}
+        p={4}
+        onClick={() => setter(value)}
       >
         {label}
-        <input
+
+        <RadioInput
+          id={`${radioName}-${value}`}
           type="radio"
           name={radioName}
           value={value}
           onChange={() => setter(value)}
-          defaultChecked={value === priceIndex}
+          defaultChecked={isChecked}
         />
-      </div>
-    </label>
+      </RadioWrapper>
+    </RadioLabel>
   )
 }
 

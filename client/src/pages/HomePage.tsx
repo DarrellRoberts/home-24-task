@@ -10,6 +10,7 @@ import Layout from "../components/ui/Layout"
 import ArticleHome from "../components/article/ArticleHome"
 import ArticleSkeleton from "../components/article/ArticleSkeleton"
 import { breakpoints, fontSize } from "../theme"
+import Box from "../components/ui/primitives/Box"
 
 const HomePage = () => {
   const [submittedSearch, setSubmittedSearch] = useState<string>("")
@@ -27,6 +28,7 @@ const HomePage = () => {
         setSubmittedSearch={setSubmittedSearch}
         setShowBlur={setShowBlur}
         showBlur={showBlur}
+        isDisabled={!articles}
       />
       {error !== null ? (
         <div css={{ display: "flex", flexDirection: "column", width: "100%" }}>

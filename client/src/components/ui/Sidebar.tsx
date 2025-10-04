@@ -1,7 +1,10 @@
-/** @jsxImportSource @emotion/react */
-
 import { Dispatch, ReactNode } from "react"
-import { colors } from "../../theme"
+import {
+  SidebarBackdrop,
+  SidebarContent,
+  ScrollArea,
+  CloseButtonWrapper,
+} from "./primitives/Sidebar"
 import Icon from "./Icon"
 
 type Props = {
@@ -12,48 +15,23 @@ type Props = {
 
 const Sidebar = ({ children, showSidebar, setShowSidebar }: Props) => {
   return (
-    <div
+    <SidebarBackdrop
       onClick={() => setShowSidebar(false)}
-      css={{
-        position: "fixed",
-        top: 0,
-        background: showSidebar ? "#00000072" : "transparent",
-        width: showSidebar ? "100%" : "0vw",
-        height: showSidebar ? "100vh" : "0%",
-        zIndex: showSidebar ? 1000 : 0,
-        transition: "background 0.5s ease-in-out",
-      }}
+      $showSidebar={showSidebar}
     >
-      <div
-        css={{
-          background: colors.backgroundAccented,
-          color: colors.text,
-          position: "absolute",
-          width: "300px",
-          transform: showSidebar ? "translateX(0)" : "translateX(-300px)",
-          height: "100%",
-          opacity: showSidebar ? "1" : "0",
-          overflow: "hidden",
-          transition: "transform 0.25s ease-in-out",
-        }}
+      <SidebarContent
+        $showSidebar={showSidebar}
+        onClick={(e: Event) => e.stopPropagation()}
       >
-        <div
-          css={{
-            height: "100%",
-            overflowY: "scroll",
-            overflowX: "hidden",
-          }}
-        >
-          <div
-            css={{ float: "right", cursor: "pointer" }}
-            onClick={() => setShowSidebar(false)}
-          >
+        <ScrollArea>
+          <CloseButtonWrapper onClick={() => setShowSidebar(false)}>
             <Icon icon="xMark" />
-          </div>
+          </CloseButtonWrapper>
+
           {children}
-        </div>
-      </div>
-    </div>
+        </ScrollArea>
+      </SidebarContent>
+    </SidebarBackdrop>
   )
 }
 
