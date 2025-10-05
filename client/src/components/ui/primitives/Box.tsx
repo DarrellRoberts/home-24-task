@@ -1,6 +1,27 @@
 import styled from "@emotion/styled"
-import { space, color, layout, flexbox, border, position } from "styled-system"
+import {
+  space,
+  color,
+  layout,
+  flexbox,
+  border,
+  position,
+  system,
+} from "styled-system"
 
-const Box = styled("div")(space, color, layout, flexbox, border, position)
+const customStyles = system({
+  filter: true,
+  transition: true,
+})
+
+const Box = styled("div")(
+  space,
+  color,
+  layout,
+  flexbox,
+  border,
+  position,
+  customStyles
+)
 
 export default Box

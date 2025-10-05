@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { ReactNode } from "react"
-import { breakpoints, colors, fontSize } from "../../theme"
+import { theme } from "../../theme/theme"
 import { keyframes } from "@emotion/react"
+import Flex from "./primitives/Flex"
+import Box from "./primitives/Box"
+import Text from "./primitives/Text"
 
 type Props = {
   bgColor?: string
@@ -37,84 +40,81 @@ const Card = ({
   }
 `
   return (
-    <div
+    <Flex
+      flexDirection="column"
+      bg={bgColor}
       css={{
-        display: "flex",
-        flexDirection: "column",
         background: bgColor,
-        boxShadow: `0px 5px 11px -3px ${colors.neutral}`,
+        boxShadow: `0px 5px 11px -3px ${theme.colors.neutral}`,
         width: "auto",
         aspectRatio: "1/1",
         padding: "1rem",
-        borderRadius: "10px",
+        borderRadius: theme.rounded.light,
         gap: isSkeleton ? "1rem" : "0",
       }}
     >
-      <div
+      <Box
         css={{
           backgroundImage: `url(${imgSrc})`,
-          backgroundColor: isSkeleton ? colors.neutral : "transparent",
+          backgroundColor: isSkeleton ? theme.colors.neutral : "transparent",
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           height: isSkeleton ? "350px" : "auto",
           aspectRatio: "1/1",
-          borderRadius: "10px",
+          borderRadius: theme.rounded.light,
           opacity: isSkeleton ? "0.1" : "1",
           animation: isSkeleton ? `${pulsate} 2s ease-in-out infinite` : "none",
-          [breakpoints.sm]: {
+          [theme.media.sm]: {
             height: isSkeleton ? "200px" : "auto",
           },
         }}
       />
       {isSkeleton ? (
-        <div css={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div
+        <Flex flexDirection="column" css={{ gap: "1rem" }}>
+          <Box
+            width={[1 / 2]}
+            height="1.5rem"
+            bg={theme.colors.neutral}
             css={{
-              background: colors.neutral,
-              borderRadius: "10px",
-              width: "50%",
-              height: "1.5rem",
+              borderRadius: theme.rounded.light,
               opacity: "0.1",
               animation: `${pulsate} 2s ease-in-out infinite`,
             }}
           />
-          <div
+          <Box
+            width={[3 / 4]}
+            height="1.5rem"
+            bg={theme.colors.neutral}
             css={{
-              background: colors.neutral,
-              borderRadius: "10px",
-              width: "75%",
-              height: "1.5rem",
+              borderRadius: theme.rounded.light,
               opacity: "0.1",
               animation: `${pulsate} 2s ease-in-out infinite`,
             }}
           />
-        </div>
+        </Flex>
       ) : (
         <>
-          <h2
-            css={{
-              color: textColor,
-              fontSize: fontSize.md,
-            }}
-          >
+          <Text as="h2" color={textColor} fontSize={theme.fontSizes[1]} p={3}>
             {header}
-          </h2>
-          <h2
+          </Text>
+          <Text
+            as="h3"
+            color={textColor}
+            fontSize={theme.fontSizes[0]}
+            p={3}
             css={{
-              color: textColor,
-              fontSize: fontSize.base,
               overflow: "hidden",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
             }}
           >
             {footer}
-          </h2>
+          </Text>
           {button}
         </>
       )}
-    </div>
+    </Flex>
   )
 }
 

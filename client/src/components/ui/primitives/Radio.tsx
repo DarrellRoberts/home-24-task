@@ -3,6 +3,7 @@ import Box from "./Box"
 import { space, border } from "styled-system"
 
 export const RadioLabel = styled(Box)((props) => ({
+  fontWeight: 600,
   [props.theme.media.sm]: {
     display: "flex",
     justifyContent: "center",
@@ -17,7 +18,6 @@ export const RadioWrapper = styled(Box)<{
   border,
 
   ({ $isChecked, $checkedColor, theme }) => ({
-    accentColor: $checkedColor,
     border: `1px solid ${$checkedColor}`,
     borderRadius: "10px",
     padding: "1rem",
@@ -32,6 +32,8 @@ export const RadioWrapper = styled(Box)<{
 
     [theme.media.sm]: {
       width: "50%",
+      display: "flex",
+      justifyContent: "center",
     },
   })
 )

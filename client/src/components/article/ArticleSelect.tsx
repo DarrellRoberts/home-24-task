@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import { Dispatch, useState } from "react"
+import { Dispatch } from "react"
 import Icon from "../ui/Icon"
-import SelectMenu from "../ui/SelectMenu"
-import { breakpoints } from "../../theme"
+import SelectMenu from "../ui/StyledSelectMenu"
+import { theme } from "../../theme/theme"
+import Box from "../ui/primitives/Box"
+import Flex from "../ui/primitives/Flex"
+import Text from "../ui/primitives/Text"
 
 type Props = {
   sortedValue: string
@@ -16,43 +19,34 @@ const ArticleSelect = ({ sortedValue, setSortedValue }: Props) => {
     { value: "high", label: "Höchster Preis " },
   ]
   return (
-    <div
+    <Box
+      alignSelf="center"
       css={{
-        // display: "flex",
-        // flexDirection: "column",
-        // position: "relative",
-        alignSelf: "center",
-        [breakpoints.md]: {
-          alignSelf: "baseline",
-        },
+        [theme.media.md]: { alignSelf: "baseline" },
+        [theme.media.sm]: { marginTop: theme.space[3] },
       }}
     >
-      <div
-        css={{
-          display: "flex",
-          gap: "1rem",
-          cursor: "pointer",
-          width: "100px",
-          float: "left",
-        }}
-      >
+      <Flex cursor="pointer" width="100px" css={{ gap: "1rem" }}>
         <Icon icon="list" />
-        <h2 css={{ margin: 0, padding: 0, textAlign: "left", width: "100%" }}>
+        <Text
+          as="h2"
+          p={0}
+          m={0}
+          width={1}
+          fontSize={1}
+          fontFamily={theme.fonts.heading}
+        >
           Sortieren
-        </h2>
-      </div>
-      <div
-        css={{
-          alignSelf: "center",
-        }}
-      >
+        </Text>
+      </Flex>
+      <Box alignSelf="center">
         <SelectMenu
           value={sortedValue}
           setter={setSortedValue}
           options={options}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

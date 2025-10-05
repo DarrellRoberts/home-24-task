@@ -1,5 +1,7 @@
-import Box from "./primitives/Box"
 import styled from "@emotion/styled"
+import Text from "./primitives/Text"
+import Flex from "./primitives/Flex"
+import Icon from "./Icon"
 
 type Props = {
   pageIndex: number
@@ -7,9 +9,10 @@ type Props = {
   toNextPage: () => void
   toPrevPage: () => void
   totalPages: number
+  isBottom?: boolean
 }
 
-const NavText = styled(Box)<{ $disabled: boolean }>(
+const NavText = styled(Flex)<{ $disabled: boolean }>(
   {
     transition: "opacity 0.2s ease-in-out",
     userSelect: "none",
@@ -27,38 +30,40 @@ const Pagination = ({
   toNextPage,
   toPrevPage,
   totalPages,
+  isBottom,
 }: Props) => {
   const isPrevDisabled = pageIndex === 0
   const isNextDisabled = pageNumber === totalPages
 
   return (
-    <Box
-      display="flex"
+    <Flex
       justifyContent="space-between"
       alignItems="center"
-      width="100%"
-      height="150px"
+      height={isBottom ? "150px" : "auto"}
     >
       <NavText
-        as="h2"
         onClick={!isPrevDisabled ? toPrevPage : undefined}
         $disabled={isPrevDisabled}
       >
-        Prev
+        <Icon icon="chevL" />
+        <Text as="h3">Zurück</Text>
       </NavText>
 
-      <Box as="h2">
-        Seite {pageNumber}/{totalPages}
-      </Box>
+      <Flex justifyContent="center">
+        <Text as="h3">
+          Seite {pageNumber}/{totalPages}
+        </Text>
+      </Flex>
 
       <NavText
-        as="h2"
         onClick={!isNextDisabled ? toNextPage : undefined}
         $disabled={isNextDisabled}
+        justifyContent="end"
       >
-        Next
+        <Text as="h3">Weiter</Text>
+        <Icon icon="chevR" />
       </NavText>
-    </Box>
+    </Flex>
   )
 }
 

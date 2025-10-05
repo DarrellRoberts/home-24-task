@@ -15,7 +15,7 @@ type Props = {
   options: { value: string; label: string }[]
 }
 
-const SelectMenu = ({ setter, value, options }: Props) => {
+const StyledSelectMenu = ({ setter, value, options }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleSelect = (newValue: string) => {
@@ -54,4 +54,4 @@ const SelectMenu = ({ setter, value, options }: Props) => {
   )
 }
 
-export default SelectMenu
+export default StyledSelectMenu

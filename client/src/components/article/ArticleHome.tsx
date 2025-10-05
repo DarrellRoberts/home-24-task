@@ -4,6 +4,7 @@ import { Dispatch } from "react"
 import { Category } from "../../types/types"
 import ArticleFeed from "./ArticleFeed"
 import ArticleSkeleton from "./ArticleSkeleton"
+import Box from "../ui/primitives/Box"
 
 type Props = {
   categories: Category
@@ -19,7 +20,7 @@ const ArticleHome = ({
   setShowSidebar,
 }: Props) => {
   return (
-    <div css={{ gridArea: "content", gridColumn: "span 2" }}>
+    <Box css={{ gridColumn: "span 2" }}>
       {categories ? (
         <ArticleFeed
           categories={categories}
@@ -30,7 +31,7 @@ const ArticleHome = ({
       ) : (
         <ArticleSkeleton />
       )}
-    </div>
+    </Box>
   )
 }
 

@@ -10,7 +10,7 @@ type Props = {
   priceIndex: string
 }
 
-const Radio = ({
+const StyledRadio = ({
   label,
   radioName,
   checkedColor,
@@ -43,4 +43,4 @@ const Radio = ({
   )
 }
 
-export default Radio
+export default StyledRadio

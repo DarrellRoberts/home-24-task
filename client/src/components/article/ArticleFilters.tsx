@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import { Dispatch, useState } from "react"
-import { breakpoints, colors, fontSize } from "../../theme"
-import Radio from "../ui/Radio"
+import { Dispatch } from "react"
+import Radio from "../ui/StyledRadio"
 import Icon from "../ui/Icon"
+import Box from "../ui/primitives/Box"
+import Flex from "../ui/primitives/Flex"
+import { theme } from "../../theme/theme"
+import Text from "../ui/primitives/Text"
 
 type Props = {
   setPriceIndex: Dispatch<React.SetStateAction<string>>
@@ -12,46 +15,50 @@ type Props = {
 
 const ArticleFilters = ({ setPriceIndex, priceIndex }: Props) => {
   return (
-    <div
+    <Box
       css={{
-        position: "relative",
+        [theme.media.sm]: {
+          width: "326px",
+          marginTop: theme.space[3],
+        },
       }}
     >
-      <div
+      <Flex
+        width="100px"
         css={{
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
           gap: "1rem",
-          width: "100px",
         }}
       >
         <Icon icon="filter" />
-        <h2 css={{ padding: 0, margin: 0 }}>Filters</h2>
-      </div>
-      <div
+        <Text
+          as="h2"
+          p={0}
+          m={0}
+          width={1}
+          fontSize={1}
+          fontFamily={theme.fonts.heading}
+        >
+          Filters
+        </Text>
+      </Flex>
+      <Flex
+        justifyContent="space-evenly"
+        fontSize={theme.fontSizes[0]}
+        zIndex={1}
         css={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          fontWeight: 600,
           gap: "1rem",
-          fontSize: fontSize.base,
-          zIndex: 1,
-          width: "100%",
-          [breakpoints.md]: {
+          [theme.media.md]: {
             flexDirection: "column",
-            gap: "1rem",
           },
-          [breakpoints.sm]: {
+          [theme.media.sm]: {
             flexDirection: "column",
-            gap: "1rem",
           },
         }}
       >
         <Radio
           label="Weniger als 1000€"
           radioName="price-index"
-          checkedColor={colors.primary}
+          checkedColor={theme.colors.primary}
           setter={setPriceIndex}
           value="low"
           priceIndex={priceIndex}
@@ -59,7 +66,7 @@ const ArticleFilters = ({ setPriceIndex, priceIndex }: Props) => {
         <Radio
           label="Inszwischen 1000€ und 8000€"
           radioName="price-index"
-          checkedColor={colors.primary}
+          checkedColor={theme.colors.primary}
           setter={setPriceIndex}
           value="medium"
           priceIndex={priceIndex}
@@ -67,7 +74,7 @@ const ArticleFilters = ({ setPriceIndex, priceIndex }: Props) => {
         <Radio
           label="Mehr als 8000€"
           radioName="price-index"
-          checkedColor={colors.primary}
+          checkedColor={theme.colors.primary}
           setter={setPriceIndex}
           value="high"
           priceIndex={priceIndex}
@@ -75,13 +82,13 @@ const ArticleFilters = ({ setPriceIndex, priceIndex }: Props) => {
         <Radio
           label="Alle"
           radioName="price-index"
-          checkedColor={colors.primary}
+          checkedColor={theme.colors.primary}
           setter={setPriceIndex}
           value="all"
           priceIndex={priceIndex}
         />
-      </div>
-    </div>
+      </Flex>
+    </Box>
   )
 }
 

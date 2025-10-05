@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
 import { ChildCategory } from "../../types/types"
-import { Dispatch, SetStateAction, useMemo, useState } from "react"
-import Sidebar from "../ui/Sidebar"
-import { colors } from "../../theme"
-import SidebarSkeleton from "./SidebarSkeleton"
+import { Dispatch, useMemo } from "react"
+import Sidebar from "../ui/StyledSidebar"
+import { theme } from "../../theme/theme"
+import Text from "../ui/primitives/Text"
+import Box from "../ui/primitives/Box"
+import { ListItem, UList } from "../ui/primitives/List"
+import StyledDivider from "../ui/StyledDivider"
 
 type Props = {
   categories?: ChildCategory
@@ -25,42 +28,35 @@ const SidebarHome = ({
 
   return (
     <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar}>
-      <h3>Kategorien</h3>
-      {sortedList?.length > 0 ? (
-        <ul
-          css={{
-            listStyle: "none",
-            margin: 0,
-            padding: "0 0 0 1rem",
-            fontWeight: 600,
-            display: "flex",
-            // height: "100%",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            gap: "1rem",
-          }}
-        >
+      <Text as="h3" fontSize={theme.fontSizes[1]} py={3}>
+        Kategorien
+      </Text>
+      {sortedList?.length > 0 && (
+        <UList as="ul" paddingRight={2}>
           {sortedList?.map((category) => (
-            <div key={category.name}>
-              <li
-                onClick={() => setSubmittedSearch(category.name)}
+            <Box key={category.name}>
+              <ListItem
                 css={{
                   cursor: "pointer",
                   "&:hover": {
-                    color: colors.neutral,
+                    color: theme.colors.neutral,
                   },
+                }}
+                onClick={() => {
+                  setSubmittedSearch(category.name)
+                  setShowSidebar(false)
                 }}
               >
                 {category.name}
-              </li>
-              <hr
-                css={{ border: `1px dotted ${colors.primary}`, width: "100%" }}
+              </ListItem>
+              <StyledDivider
+                thickness="1px"
+                borderStyle="dotted"
+                color={theme.colors.primary}
               />
-            </div>
+            </Box>
           ))}
-        </ul>
-      ) : (
-        <SidebarSkeleton />
+        </UList>
       )}
     </Sidebar>
   )

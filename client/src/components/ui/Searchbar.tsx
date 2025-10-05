@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { Dispatch } from "react"
-import { breakpoints, colors, font } from "../../theme"
 import Icon from "./Icon"
+import { theme } from "../../theme/theme"
+import Flex from "./primitives/Flex"
+import Box from "./primitives/Box"
 
 type Props = {
   setter: Dispatch<React.SetStateAction<string>>
@@ -22,21 +24,23 @@ const Searchbar = ({
   isDisabled,
 }: Props) => {
   return (
-    <div
+    <Flex
       css={{
-        display: "flex",
-        border: `2px solid ${colors.primary}`,
-        borderRadius: "10px",
+        width: "auto",
+        border: `2px solid ${theme.colors.primary}`,
+        borderRadius: theme.rounded.light,
         paddingLeft: "1rem",
         marginRight: "1rem",
-        background: colors.background,
-        [breakpoints.sm]: {
+        fontSize: theme.fontSizes[2],
+        background: theme.colors.background,
+        [theme.media.sm]: {
           marginRight: "0",
+          marginTop: "2rem",
           width: "95%",
         },
-        [breakpoints.md]: {
+        [theme.media.md]: {
           marginRight: "0",
-          width: "55%",
+          width: "clamp(300px, 60vw, 500px)",
         },
       }}
     >
@@ -57,17 +61,16 @@ const Searchbar = ({
           fontSize: "1.1rem",
           fontWeight: "600",
           outline: "none",
-          fontFamily: font.main,
-          borderRadius: "10px",
-          background: colors.background,
+          borderRadius: theme.rounded.light,
+          background: theme.colors.background,
           width: "500px",
-          [breakpoints.sm]: {
+          [theme.media.sm]: {
             width: "100%",
           },
         }}
       />
-      <div
-        onClick={(e) => {
+      <Box
+        onClick={(e: Event) => {
           e.stopPropagation()
           setter("")
           setterTwo(false)
@@ -75,36 +78,33 @@ const Searchbar = ({
         }}
         css={{ cursor: searchbar ? "pointer" : "default" }}
       >
-        <Icon icon="xMark" strokeColor={searchbar && colors.primary} />
-      </div>
-      <div
-        onClick={(e) => {
+        <Icon icon="xMark" strokeColor={searchbar && theme.colors.primary} />
+      </Box>
+      <Box
+        onClick={(e: Event) => {
           e.stopPropagation()
           setter(searchbar)
           setterTwo(false)
         }}
         css={{
-          backgroundColor: colors.primary,
+          backgroundColor: theme.colors.primary,
           padding: "0 1rem",
           display: "flex",
           justifyContent: "center",
-          borderRadius: "5px",
+          borderRadius: theme.rounded.lightest,
           alignItems: "center",
           height: "100%",
           "&:hover": {
             cursor: "pointer",
           },
-          "&:active": {
-            background: colors.background,
-          },
           "&:active > *": {
-            background: colors.background,
+            transform: "scale(0.85)",
           },
         }}
       >
         <Icon icon={"magniGlass"} />
-      </div>
-    </div>
+      </Box>
+    </Flex>
   )
 }
 

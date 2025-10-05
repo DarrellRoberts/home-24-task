@@ -1,12 +1,14 @@
 import styled from "@emotion/styled"
 import Box from "./Box"
-import { flexbox } from "styled-system"
+import { flexbox, grid } from "styled-system"
 
 const Flex = styled(Box)(
   {
     display: "flex",
+    width: "100%",
   },
-  flexbox
+  flexbox,
+  grid
 )
 
 export default Flex

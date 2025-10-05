@@ -5,12 +5,13 @@ import HeaderHome from "../components/header/HeaderHome"
 import SidebarHome from "../components/sidebar/SidebarHome"
 import useArticleFetch from "../hooks/useArticleFetch"
 import { GET_ARTICLES_QUERY } from "../queries/articlesQuery"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Layout from "../components/ui/Layout"
 import ArticleHome from "../components/article/ArticleHome"
 import ArticleSkeleton from "../components/article/ArticleSkeleton"
-import { breakpoints, fontSize } from "../theme"
 import Box from "../components/ui/primitives/Box"
+import Flex from "../components/ui/primitives/Flex"
+import Text from "../components/ui/primitives/Text"
 
 const HomePage = () => {
   const [submittedSearch, setSubmittedSearch] = useState<string>("")
@@ -22,6 +23,20 @@ const HomePage = () => {
     GET_ARTICLES_QUERY
   )
 
+  useEffect(() => {
+    const bodyOverflow = document.body.style.overflow
+
+    if (showBlur) {
+      document.body.style.overflow = "hidden"
+      document.documentElement.style.overflow = "hidden"
+    }
+
+    return () => {
+      document.body.style.overflow = bodyOverflow
+      document.documentElement.style.overflow = bodyOverflow
+    }
+  }, [showBlur])
+
   return (
     <Layout>
       <HeaderHome
@@ -31,24 +46,21 @@ const HomePage = () => {
         isDisabled={!articles}
       />
       {error !== null ? (
-        <div css={{ display: "flex", flexDirection: "column", width: "100%" }}>
-          <h1
-            css={{
-              fontSize: fontSize.xl,
-              [breakpoints.sm]: { textAlign: "center" },
-            }}
-          >
+        <Flex flexDirection="column">
+          <Text as="h1" fontSize={[4]} textAlign={"center"}>
             Produktdetails konnten nicht abgerufen werden. Bitte versuchen Sie
             es später erneut.
-          </h1>
+          </Text>
           <ArticleSkeleton />
-        </div>
+        </Flex>
       ) : null}
       {isPending && !error && (
-        <div css={{ display: "flex", flexDirection: "column" }}>
-          <h1>Laden...</h1>
+        <Flex flexDirection="column">
+          <Text as="h1" fontSize={[4]} textAlign="center">
+            Wird geladen...
+          </Text>
           <ArticleSkeleton />
-        </div>
+        </Flex>
       )}
       {articles && !error && !isPending && (
         <>
@@ -58,11 +70,9 @@ const HomePage = () => {
             showSidebar={showSidebar}
             categories={articles?.childrenCategories}
           />
-          <div
-            css={{
-              filter: showBlur ? "blur(0.5rem)" : "blur(0)",
-              transition: "filter 0.15s ease-in-out",
-            }}
+          <Box
+            filter={showBlur ? "blur(0.5rem)" : "blur(0)"}
+            transition="filter 0.15s ease-in-out"
             onClick={() => setShowBlur(false)}
           >
             <ArticleHome
@@ -71,7 +81,7 @@ const HomePage = () => {
               setSubmittedSearch={setSubmittedSearch}
               setShowSidebar={setShowSidebar}
             />
-          </div>
+          </Box>
         </>
       )}
       <FooterHome />

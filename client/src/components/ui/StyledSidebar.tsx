@@ -13,7 +13,7 @@ type Props = {
   setShowSidebar: Dispatch<React.SetStateAction<boolean>>
 }
 
-const Sidebar = ({ children, showSidebar, setShowSidebar }: Props) => {
+const StyledSidebar = ({ children, showSidebar, setShowSidebar }: Props) => {
   return (
     <SidebarBackdrop
       onClick={() => setShowSidebar(false)}
@@ -22,6 +22,7 @@ const Sidebar = ({ children, showSidebar, setShowSidebar }: Props) => {
       <SidebarContent
         $showSidebar={showSidebar}
         onClick={(e: Event) => e.stopPropagation()}
+        pl={3}
       >
         <ScrollArea>
           <CloseButtonWrapper onClick={() => setShowSidebar(false)}>
@@ -35,4 +36,4 @@ const Sidebar = ({ children, showSidebar, setShowSidebar }: Props) => {
   )
 }
 
-export default Sidebar
+export default StyledSidebar

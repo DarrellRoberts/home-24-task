@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 import styled from "@emotion/styled"
 import Grid from "./primitives/Grid"
 import Flex from "./primitives/Flex"
-import { breakpoints } from "../../theme"
+import { theme } from "../../theme/theme"
 
 type Props = {
   children: ReactNode
@@ -15,13 +15,13 @@ const ProductGridStyle = styled(Grid)`
   padding: 0 5rem;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 
-  ${breakpoints.sm} {
+  ${theme.media.sm} {
     padding: 0;
     gap: 5px;
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
   }
 
-  ${breakpoints.md} {
+  ${theme.media.md} {
     padding: 0;
     gap: 5px;
     grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
