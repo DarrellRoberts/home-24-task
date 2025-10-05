@@ -5,11 +5,14 @@ import { type Category } from "../../types/types"
 import { Dispatch, useMemo, useState } from "react"
 import ArticleFilters from "./ArticleFilters"
 import ArticleSelect from "./ArticleSelect"
-import Button from "../ui/Button"
+import Button from "../ui/StyledButton"
 import Pagination from "../ui/Pagination"
 import Icon from "../ui/Icon"
-import { breakpoints, colors } from "../../theme"
 import ProductGrid from "../ui/ProductGrid"
+import Box from "../ui/primitives/Box"
+import Text from "../ui/primitives/Text"
+import Flex from "../ui/primitives/Flex"
+import { theme } from "../../theme/theme"
 
 type Props = {
   categories: Category
@@ -98,74 +101,79 @@ const ArticleFeed = ({
   }, [submittedSearch, sortedValue, categories, priceIndex, pageIndex])
 
   return (
-    <div>
-      <h1>
+    <Box ml={3}>
+      <Text as="h1">
         {categories?.name}
         <small>
           {" "}
           ({sortedAndFilteredList.length}/{totalItems})
         </small>
-      </h1>
-      <div
+      </Text>
+      <Flex
+        justifyContent="space-evenly"
+        alignItems="center"
+        width="100%"
+        pb={5}
         css={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          width: "100%",
-          paddingBottom: "2rem",
-          [breakpoints.sm]: {
+          [theme.media.sm]: {
             flexDirection: "column",
-            gap: "1rem",
           },
-          [breakpoints.md]: {
-            display: "grid",
 
+          [theme.media.md]: {
+            display: "grid",
             gridTemplateRows: "auto auto",
-            gap: "1rem",
+            gap: theme.space[3],
             alignContent: "center",
             justifyItems: "center",
           },
         }}
       >
-        <div
+        <Box
+          pt={4}
           css={{
-            paddingTop: "34px",
-            [breakpoints.md]: {
+            [theme.media.md]: {
               gridColumn: "span 2",
             },
           }}
         >
           <Button
             label="Kategorien"
-            textColor={colors.primary}
+            textColor={theme.colors.primary}
             variant="outline"
             clickFunc={() => setShowSidebar(true)}
             icon={<Icon icon={"arrowLeft"} />}
           />
-        </div>
+        </Box>
 
         <ArticleFilters priceIndex={priceIndex} setPriceIndex={setPriceIndex} />
         <ArticleSelect
           setSortedValue={setSortedValue}
           sortedValue={sortedValue}
         />
-      </div>
+      </Flex>
       {submittedSearch && (
-        <div>
-          <h2>Ergebnisse für: {submittedSearch}</h2>
+        <Box>
+          <Text as="h2">Ergebnisse für: {submittedSearch}</Text>
           <Button
             label="Zurücksetzen"
             clickFunc={() => setSubmittedSearch("")}
           />
-        </div>
+        </Box>
       )}
+      <Pagination
+        pageIndex={pageIndex}
+        pageNumber={pageIndex + 1}
+        toNextPage={handleNextPage}
+        toPrevPage={handlePrevPage}
+        totalPages={totalPages}
+      />
       <ProductGrid productLength={sortedAndFilteredList.length}>
         {sortedAndFilteredList.length > 0 ? (
           sortedAndFilteredList.map((article, index) => (
             <ArticleCard article={article} key={article.name + index} />
           ))
         ) : (
-          <h2>Keine Ergebnisse</h2>
+          <Text as="h2">Keine Ergebnisse</Text>
         )}
       </ProductGrid>
       <Pagination
@@ -174,8 +182,9 @@ const ArticleFeed = ({
         toNextPage={handleNextPage}
         toPrevPage={handlePrevPage}
         totalPages={totalPages}
+        isBottom={true}
       />
-    </div>
+    </Box>
   )
 }
 

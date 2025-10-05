@@ -1,28 +1,31 @@
 /** @jsxImportSource @emotion/react */
-import { breakpoints, colors, fontSize } from "../../theme"
-import Footer from "../ui/Footer"
+
+import { theme } from "../../theme/theme"
+import Footer from "../ui/StyledFooter"
+import Flex from "../ui/primitives/Flex"
+import Text from "../ui/primitives/Text"
 
 const FooterHome = () => {
   return (
     <Footer>
-      <div
+      <Flex
+        position="absolute"
+        justifyContent="end"
+        bottom={0}
+        right={0}
+        m={3}
+        color={theme.colors.textInverted}
         css={{
-          display: "flex",
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          margin: "1rem",
-          color: colors.textInverted,
-          [breakpoints.sm]: {
+          [theme.media.sm]: {
             margin: 0,
           },
         }}
       >
-        <span css={{ fontSize: fontSize.base }}>
+        <Text as="span" fontSize={theme.fontSizes[0]}>
           Alle Preise sind in Euro (€) inkl. gesetzlicher Umsatzsteuer und
           Versandkosten.
-        </span>
-      </div>
+        </Text>
+      </Flex>
     </Footer>
   )
 }

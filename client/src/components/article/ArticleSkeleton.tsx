@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
-import { breakpoints, colors } from "../../theme"
+import { theme } from "../../theme/theme"
 import Card from "../ui/Card"
+import Box from "../ui/primitives/Box"
 import ProductGrid from "../ui/ProductGrid"
 
 type Props = {
@@ -15,9 +16,9 @@ const ArticleSkeleton = ({ freq = 8 }: Props) => {
   return (
     <ProductGrid productLength={8}>
       {newArr.map((skele, index) => (
-        <div key={skele + index}>
-          <Card bgColor={colors.backgroundAccented} isSkeleton={true} />
-        </div>
+        <Box key={skele + index}>
+          <Card bgColor={theme.colors.backgroundAccented} isSkeleton={true} />
+        </Box>
       ))}
     </ProductGrid>
   )

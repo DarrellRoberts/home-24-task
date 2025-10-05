@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
 import { Global, css } from "@emotion/react"
-import { colors } from "./theme"
 import HomePage from "./pages/HomePage"
+import { theme } from "./theme/theme"
 
 const App = () => {
   return (
@@ -10,10 +10,11 @@ const App = () => {
       <Global
         styles={css`
           @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
           body {
-            background: ${colors.background};
-            color: ${colors.text};
-            font-family: "Playfair Display", serif;
+            background: ${theme.colors.background};
+            color: ${theme.colors.text};
+            font-family: ${theme.fonts.body};
             font-optical-sizing: auto;
             font-style: normal;
             margin: 0;

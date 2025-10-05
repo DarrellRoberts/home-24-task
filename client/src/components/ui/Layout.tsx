@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { ReactNode } from "react"
+import Flex from "./primitives/Flex"
 
 type Props = {
   children: ReactNode
@@ -8,15 +9,9 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div
-      css={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-      }}
-    >
+    <Flex flexDirection="column" height="100%">
       {children}
-    </div>
+    </Flex>
   )
 }
 

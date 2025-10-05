@@ -1,60 +1,69 @@
 /** @jsxImportSource @emotion/react */
 
 import { useState, type Dispatch } from "react"
-import { breakpoints, colors } from "../../theme"
-import Header from "../ui/Header"
+import Header from "../ui/StyledHeader"
 import Searchbar from "../ui/Searchbar"
+import Flex from "../ui/primitives/Flex"
+import { theme } from "../../theme/theme"
+import Box from "../ui/primitives/Box"
+import Text from "../ui/primitives/Text"
 
 type Props = {
   setSubmittedSearch: Dispatch<React.SetStateAction<string>>
   setShowBlur: Dispatch<React.SetStateAction<boolean>>
   showBlur: boolean
+  isDisabled: boolean
 }
 
-const HeaderHome = ({ setSubmittedSearch, setShowBlur, showBlur }: Props) => {
+const HeaderHome = ({
+  setSubmittedSearch,
+  setShowBlur,
+  showBlur,
+  isDisabled,
+}: Props) => {
   const [searchbar, setSearchbar] = useState<string>("")
   return (
     <Header>
-      <div
+      <Flex
+        height="100%"
+        justifyContent="space-between"
+        alignItems="center"
+        fontSize={theme.fontSizes[4]}
         css={{
-          display: "flex",
-          width: "100%",
-          height: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "2.25rem",
-          [breakpoints.sm]: {
+          [theme.media.sm]: {
             flexDirection: "column",
             alignItems: "start",
           },
         }}
       >
-        <div
-          css={{
-            width: "160px",
-            background: colors.primary,
-            padding: "1rem",
-            borderBottomRightRadius: "10px",
-            filter: showBlur ? "blur(1rem)" : "blur(0)",
-            transition: "blur 0.25s ease-in-out",
-          }}
+        <Box
+          width="160px"
+          bg={theme.colors.primary}
+          p={theme.space[2]}
+          borderBottomRightRadius={theme.rounded.light}
+          filter={showBlur ? "blur(1rem)" : "blur(0)"}
+          transition="blur 0.25s ease-in-out"
         >
-          <strong
-            css={{
-              padding: "1rem",
-            }}
+          <Text
+            as="strong"
+            fontSize={theme.fontSizes[2]}
+            p={3}
+            fontFamily={theme.fonts.heading}
           >
             home24
-          </strong>
-        </div>
+          </Text>
+        </Box>
         <Searchbar
           setter={setSubmittedSearch}
           setterTwo={setShowBlur}
           searchbar={searchbar}
           setSearchbar={setSearchbar}
-          placeholder="Wonach Suchen Sie..."
+          placeholder={
+            showBlur ? "Enter zum Schließen" : "Wonach Suchen Sie..."
+          }
+          isDisabled={isDisabled}
         />
-      </div>
+      </Flex>
     </Header>
   )
 }
