@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-// import { breakpoints } from "../../theme"
+
 import { theme } from "../../theme/theme"
 import Footer from "../ui/StyledFooter"
 import Flex from "../ui/primitives/Flex"
