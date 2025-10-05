@@ -7,6 +7,7 @@ import Flex from "../ui/primitives/Flex"
 import { theme } from "../../theme/theme"
 import Box from "../ui/primitives/Box"
 import Text from "../ui/primitives/Text"
+import StyledLink from "../ui/StyledLink"
 
 type Props = {
   setSubmittedSearch: Dispatch<React.SetStateAction<string>>
@@ -50,7 +51,7 @@ const HeaderHome = ({
             p={3}
             fontFamily={theme.fonts.heading}
           >
-            home24
+            <StyledLink url="/">home24</StyledLink>
           </Text>
         </Box>
         <Searchbar

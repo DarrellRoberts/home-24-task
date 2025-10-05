@@ -76,7 +76,7 @@ const ArticleFeed = ({
           } else if (priceIndex === "high") {
             return article.prices.regular.value / 100 > 8000
           } else {
-            return
+            return []
           }
         }) || []
 
@@ -153,7 +153,9 @@ const ArticleFeed = ({
       </Flex>
       {submittedSearch && (
         <Box>
-          <Text as="h2">Ergebnisse für: {submittedSearch}</Text>
+          <Text as="h2" data-testid="search-results-header">
+            Ergebnisse für: ,,{submittedSearch}"
+          </Text>
           <Button
             label="Zurücksetzen"
             clickFunc={() => setSubmittedSearch("")}
