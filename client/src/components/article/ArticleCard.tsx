@@ -18,12 +18,8 @@ const ArticleCard = ({ article }: { article: Article }) => {
     currency: intlNumberFormatValues[2],
   })
 
-  const testId = `product-card-${article.name
-    .replace(/\s+/g, "-")
-    .toLowerCase()}`
   return (
     <Card
-      testId={testId}
       header={formatter.format(article.prices.regular.value / 100)}
       footer={article.name}
       imgSrc={article.images[0].path}

@@ -15,7 +15,6 @@ type Props = {
   footer?: string
   isSkeleton?: boolean
   button?: ReactNode
-  testId?: string
 }
 
 const Card = ({
