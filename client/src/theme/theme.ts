@@ -23,7 +23,6 @@ export const theme = {
     text: "#34281d",
     textInverted: "#FFF3E0",
     background: "#FFF3E0",
-    backgroundInverted: "#B29259",
     backgroundAccented: "#fdf5e8ff",
   },
 
