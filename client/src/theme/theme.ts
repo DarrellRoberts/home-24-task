@@ -19,7 +19,7 @@ export const theme = {
     primary: "#664E36",
     secondary: "#F16B32",
 
-    neutral: "#A1A1A9",
+    neutral: "#6d6d75ff",
     text: "#34281d",
     textInverted: "#FFF3E0",
     background: "#FFF3E0",
