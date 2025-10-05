@@ -45,6 +45,7 @@ const Searchbar = ({
       }}
     >
       <input
+        data-testid="search-input"
         disabled={isDisabled}
         placeholder={placeholder}
         value={searchbar}
@@ -82,6 +83,7 @@ const Searchbar = ({
         <Icon icon="xMark" strokeColor={searchbar && theme.colors.primary} />
       </Box>
       <Box
+        data-testid="search-button"
         onClick={(e: Event) => {
           e.stopPropagation()
           setter(searchbar)
