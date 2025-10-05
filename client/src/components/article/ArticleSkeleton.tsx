@@ -14,7 +14,7 @@ const ArticleSkeleton = ({ freq = 8 }: Props) => {
   newArr.length = freq
   newArr.fill(1.1).forEach((_, index) => index * freq)
   return (
-    <ProductGrid productLength={8}>
+    <ProductGrid productLength={8} data-testid="article-skeleton">
       {newArr.map((skele, index) => (
         <Box key={skele + index}>
           <Card bgColor={theme.colors.backgroundAccented} isSkeleton={true} />

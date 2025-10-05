@@ -70,6 +70,7 @@ const Searchbar = ({
         }}
       />
       <Box
+        data-testid="clear-button"
         onClick={(e: Event) => {
           e.stopPropagation()
           setter("")
