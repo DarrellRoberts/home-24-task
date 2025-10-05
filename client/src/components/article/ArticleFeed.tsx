@@ -101,7 +101,7 @@ const ArticleFeed = ({
   }, [submittedSearch, sortedValue, categories, priceIndex, pageIndex])
 
   return (
-    <Box ml={3}>
+    <Box ml={3} data-testid="article-feed">
       <Text as="h1">
         {categories?.name}
         <small>
